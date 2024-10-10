@@ -14,33 +14,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Cache Unity
-      - name: Cache Unity
-        uses: actions/cache@v3
+      # Step to trigger Unity Activation
+      - name: Unity Activation Request
+        uses: game-ci/unity-activate@v2
         with:
-          path: ~/.local/share/unity3d
-          key: unity-${{ runner.os }}-${{ hashFiles('**/Packages/manifest.json') }}
+          unityVersion: 2021.3.5f1 # Replace with your Unity version
+          personalLicense: ${{ secrets.UNITY_LICENSE }}
 
-      # Setup Unity Editor
+      # The rest of the build pipeline follows once activation is complete
       - name: Setup Unity
         uses: game-ci/unity-builder@v2
         with:
-          version: 2021.3.28f1  # Replace with your Unity version
-          targetPlatform: StandaloneWindows64  # Adjust based on your build target
+          version: 2021.3.5f1
+          targetPlatform: StandaloneWindows64 # Adjust this according to your target
 
-      # Build Unity project
+      # Building the project
       - name: Build project
         uses: game-ci/unity-builder@v2
         with:
-          version: 2021.3.28f1 
+          version: 2021.3.5f1
           targetPlatform: StandaloneWindows64
           projectPath: .
 
-      # Upload the build as an artifact
+      # Upload the build artifact (updated to v3)
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
