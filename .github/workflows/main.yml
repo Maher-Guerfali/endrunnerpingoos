@@ -232,7 +232,7 @@ jobs:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
 
       # Upload artifacts
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: Test results (${{ matrix.testMode }})
           path: ${{ steps.testRunner.outputs.artifactsPath }}
